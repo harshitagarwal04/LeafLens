@@ -14,7 +14,7 @@ import {
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons'; // ✅ Import for back arrow icon
+import { Ionicons } from '@expo/vector-icons'; // Import for back arrow icon
 
 const { width, height } = Dimensions.get('window');
 
