@@ -24,7 +24,7 @@ const GalleryScreen = () => {
     const [hasPermission, setHasPermission] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
 
-    // ✅ Ask for permissions when the screen loads
+    // Ask for permissions when the screen loads
     useEffect(() => {
         (async () => {
             const { status } = await MediaLibrary.requestPermissionsAsync();
@@ -37,7 +37,7 @@ const GalleryScreen = () => {
         })();
     }, []);
 
-    // 🔥 Load images from the custom folder "CameraGalleryApp"
+    // Load images from the custom folder "CameraGalleryApp"
     const loadGalleryImages = async () => {
         try {
             const albumName = 'LeafLens'; // Custom folder name
@@ -59,7 +59,7 @@ const GalleryScreen = () => {
         }
     };
 
-    // ✅ Open full gallery to upload an image
+    // Open full gallery to upload an image
     const openFullGallery = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -74,7 +74,7 @@ const GalleryScreen = () => {
 
     return (
         <GestureHandlerRootView style={styles.container}>
-            {/* 🔥 Captured Moments Section (Top) */}
+            {/* Captured Moments Section (Top) */}
             <Text style={styles.header}>Captured Pictures</Text>
 
             {images.length === 0 ? (
@@ -92,7 +92,7 @@ const GalleryScreen = () => {
                 />
             )}
 
-            {/* 🔥 Uploaded Images Section (Middle) */}
+            {/* Uploaded Images Section (Middle) */}
             <Text style={styles.header}>Uploads</Text>
             {uploadedImages.length === 0 ? (
                 <Text style={styles.noImages}>No uploaded images yet.</Text>
@@ -109,15 +109,15 @@ const GalleryScreen = () => {
                 />
             )}
 
-            {/* 🔥 Upload Button (Bottom) */}
+            {/* Upload Button (Bottom) */}
             <TouchableOpacity style={styles.uploadButton} onPress={openFullGallery}>
                 <Text style={styles.uploadText}>Upload</Text>
             </TouchableOpacity>
 
-            {/* 🔥 Image Preview Modal */}
+            {/* Image Preview Modal */}
             <Modal visible={!!selectedImage} transparent={true} animationType="fade">
                 <View style={styles.modalContainer}>
-                    {/* 🔙 Back Button */}
+                    {/* Back Button */}
                     <TouchableOpacity
                         style={styles.backButton}
                         onPress={() => setSelectedImage(null)}
@@ -125,14 +125,14 @@ const GalleryScreen = () => {
                         <Ionicons name="arrow-back" size={30} color="#fff" />
                     </TouchableOpacity>
 
-                    {/* 🖼️ Image Preview (No Zoom) */}
+                    {/* Image Preview (No Zoom) */}
                     <Image
                         source={{ uri: selectedImage }}
                         style={styles.fullImage}
                         resizeMode="contain"
                     />
 
-                    {/* ✅ Analyze Button */}
+                    {/* Analyze Button */}
                     <TouchableOpacity
                         style={styles.analyzeButton}
                         onPress={() => alert('Analyze functionality coming soon!')}
