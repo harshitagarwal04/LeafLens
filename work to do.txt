@@ -2,7 +2,7 @@ To do-
 
 swipe feature - 
 
-Don't save image/ or hide image when permission denied
+Don't save image/hide image when permission denied
 
 CSS home screen / rework
 
