@@ -1,50 +1,77 @@
-# Welcome to your Expo app 👋
+# 🌿 LeafLens - Plant Disease Detection App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+LeafLens is a mobile application built using **React Native** and **Expo**. The primary goal of LeafLens is to help users detect plant diseases by analyzing images of plant leaves. Users can capture images through the in-app camera or upload existing images, and the app will provide analysis results.
 
-## Get started
+## 🚀 Features
+- Capture images directly using the camera.
+- Upload images from the device gallery.
+- Analyze the plant leaf for disease detection.
+- Save images in the **LeafLens** album.
+- User-friendly UI with green and white theme.
+- Separate sections for captured and uploaded images.
+- Plus icon for quick access to the camera.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🛠️ Getting Started
 
-2. Start the app
+### Prerequisites
+Make sure you have the following installed:
+- [Node.js](https://nodejs.org/)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)
 
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+### Installation
+Clone the repository and install dependencies:
 ```bash
-npm run reset-project
+git clone https://github.com/yourusername/LeafLens.git
+cd LeafLens
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Running the App
+Start the development server:
+```bash
+npx expo start
+```
+Follow the prompts to open the app on your device or emulator:
+- Scan the QR code with Expo Go (on Android or iOS).
+- Use an Android emulator or iOS simulator.
 
-## Learn more
+---
 
-To learn more about developing your project with Expo, look at the following resources:
+## 📝 Usage
+1. Open the app and select **"Camera"** to directly capture an image.
+2. After clicking the image, choose to **"Analyze"** or **"Take Again"**.
+3. Go to the **Gallery** to view saved and uploaded images.
+4. Click the **"+"** icon in the gallery to open the camera again.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 🌱 About LeafLens
+LeafLens aims to revolutionize plant health monitoring by utilizing machine learning to detect diseases from leaf images. This tool can greatly benefit farmers, gardeners, and researchers.
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 📂 Project Structure
+The project follows a clean and modular structure:
+```
+LeafLens/
+├── assets/         # Image and media assets
+├── components/     # Reusable components
+├── screens/        # UI screens (Camera, Gallery, Analyze)
+├── styles/         # Centralized styling files
+├── App.js          # Entry point of the application
+└── README.md       # Project documentation
+```
+
+---
+
+## 🤝 Contributing
+Feel free to fork the repository and submit pull requests. For major changes, open an issue first to discuss what you would like to change.
+
+---
+
+## 📧 Contact
+For any queries or feedback, reach out at: [harshitagarwal713@gmail.com]
+
+🌿
