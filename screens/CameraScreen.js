@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Alert, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, Image, Alert, TouchableOpacity, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
-import * as FileSystem from 'expo-file-system';
+import Toast from 'react-native-toast-message';
+import styles from './CameraScreenStyle.js';
 
 // Utility function to request permissions
 const requestPermissions = async () => {
@@ -11,12 +12,12 @@ const requestPermissions = async () => {
         const mediaPermission = await MediaLibrary.requestPermissionsAsync();
 
         if (cameraPermission.status !== 'granted') {
-            Alert.alert("Camera Permission Denied", "Camera permission is required.");
+            Alert.alert("Permission Denied", "Camera and media library permissions are required.");
             return false;
         }
 
         if (mediaPermission.status !== 'granted') {
-            Alert.alert("Media Library Permission Denied", "Media library permission is required to save images.");
+            Alert.alert("Permission Denied", "Camera and media library permissions are required.");
             return false;
         }
         return true;
@@ -27,7 +28,7 @@ const requestPermissions = async () => {
     }
 };
 
-// Utility function to save image to the gallery or as a hidden file
+// Utility function to save image to the gallery
 const saveImageToGallery = async (uri) => {
     try {
         const asset = await MediaLibrary.createAssetAsync(uri);
@@ -38,36 +39,32 @@ const saveImageToGallery = async (uri) => {
             const permission = await MediaLibrary.requestPermissionsAsync();
             if (permission.granted) {
                 album = await MediaLibrary.createAlbumAsync(albumName, asset, false);
-                Alert.alert("Saved", `Image saved in Gallery > ${albumName}.`);
+                Toast.show({
+                    type: 'success',
+                    text1: 'Saved',
+                    text2: 'Image saved in Gallery > LeafLens.',
+                });
             } else {
-                console.warn("Permission denied for creating LeafLens album. Saving as a hidden file.");
-
-                try {
-                    // Save as a hidden file using expo-file-system
-                    const hiddenDir = `${FileSystem.documentDirectory}LeafLens/.hidden`;
-                    const dirInfo = await FileSystem.getInfoAsync(hiddenDir);
-
-                    // Create hidden directory if it doesn't exist
-                    if (!dirInfo.exists) {
-                        await FileSystem.makeDirectoryAsync(hiddenDir, { intermediates: true });
-                    }
-
-                    const fileName = uri.split('/').pop();
-                    const newPath = `${hiddenDir}/${fileName}`;
-                    await FileSystem.moveAsync({ from: uri, to: newPath });
-                    Alert.alert("Saved as Hidden File", "Image saved in a hidden folder.");
-                } catch (fileError) {
-                    console.error("Error saving as hidden file:", fileError);
-                    Alert.alert("Save Error", `Failed to save image as a hidden file: ${fileError.message}`);
-                }
+                Toast.show({
+                    type: 'error',
+                    text1: 'Permission Denied',
+                    text2: 'Image will be used for this session only and will not be saved.',
+                });
             }
         } else {
             await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-            Alert.alert("Saved", `Image saved in Gallery > ${albumName}.`);
+            Toast.show({
+                type: 'success',
+                text1: 'Saved',
+                text2: 'Image saved in Gallery > LeafLens.',
+            });
         }
     } catch (error) {
-        // console.error("Error saving image:", error);
-        Alert.alert("Warning!", `Image Saved in Gallery, next time press allow to save the image in LeafLens album for easy access.`);
+        Toast.show({
+            type: 'error',
+            text1: 'Warning!',
+            text2: 'Image will be used for this session only and will not be saved.',
+        });
     }
 };
 
@@ -107,41 +104,19 @@ const CameraScreen = ({ navigation }) => {
             {image && (
                 <>
                     <Image source={{ uri: image }} style={styles.image} />
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-                        <TouchableOpacity
-                            onPress={() => openCamera(setImage, navigation)}
-                        >
-                            <Text>Take Image Again</Text>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button} onPress={() => openCamera(setImage, navigation)}>
+                            <Text style={styles.buttonText}>Take Again</Text>
                         </TouchableOpacity>
-                        <View style={{ width: 10 }} /> {/* Spacer between buttons */}
-                        <TouchableOpacity
-                            onPress={() => Alert.alert('Analysis feature coming soon!')}
-                        >
-                            <Text>Analyse this image</Text>
-                        </TouchableOpacity>
+                        <View style={{ width: 10 }} /> 
+                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AnalyzeScreen', { imageUri: image })}>
+                            <Text style={styles.buttonText}>Analyse</Text>
+                        </TouchableOpacity> 
                     </View>
                 </>
             )}
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-    image: { width: 300, height: 400, marginTop: 20 },
-    button: {
-        backgroundColor: '#4CAF50',
-        paddingVertical: 12,
-        paddingHorizontal: 24,
-        borderRadius: 8,
-        marginHorizontal: 5,
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        fontFamily: 'Roboto',
-    },
-});
 
 export default CameraScreen;

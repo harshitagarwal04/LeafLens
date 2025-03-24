@@ -1,101 +1,180 @@
 import React, { useState, useEffect } from 'react';
-import {
-    View,
-    Text,
-    FlatList,
-    Image,
-    TouchableOpacity,
-    StyleSheet,
-    Alert,
-    Modal,
-    Dimensions,
-    Button,
-} from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity, Alert, Modal, BackHandler } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons'; // Import for back arrow icon
+import { Ionicons } from '@expo/vector-icons';
+import styles from './GalleryScreenStyle';
+import { colors } from '../styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message'; // Import Toast
 
-const { width, height } = Dimensions.get('window');
-
-const GalleryScreen = () => {
-    const [images, setImages] = useState([]);
+const GalleryScreen = ({ navigation }) => {
+    const [capturedImages, setCapturedImages] = useState([]);
     const [uploadedImages, setUploadedImages] = useState([]);
-    const [hasPermission, setHasPermission] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
 
-    // Ask for permissions when the screen loads
+    // Request permissions and load captured images from the app folder
     useEffect(() => {
         (async () => {
             const { status } = await MediaLibrary.requestPermissionsAsync();
             if (status !== 'granted') {
-                Alert.alert('Permission Required', 'We need access to your gallery to show images.');
-            } else {
-                setHasPermission(true);
-                loadGalleryImages(); // Load images if permission is granted
+                Toast.show({
+                    type: 'error',
+                    text1: 'Permission Required',
+                    text2: 'We need access to your gallery to show images.',
+                });
+                return;
             }
+            loadCapturedImages();
+            loadUploadedImages(); // Load uploaded images from storage
         })();
     }, []);
 
-    // Load images from the custom folder "CameraGalleryApp"
-    const loadGalleryImages = async () => {
-        try {
-            const albumName = 'LeafLens'; // Custom folder name
-            const album = await MediaLibrary.getAlbumAsync(albumName);
+    // Handle back button to close the image preview modal
+    useEffect(() => {
+        const backAction = () => {
+            if (selectedImage) {
+                setSelectedImage(null);
+                return true; // Prevent default back action
+            }
+            return false; // Allow default back action
+        };
 
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+        return () => {
+            if (backHandler) backHandler.remove();
+        };
+    }, [selectedImage]);
+
+    // Load images from the custom folder "LeafLens"
+    const loadCapturedImages = async () => {
+        try {
+            const albumName = 'LeafLens';
+            const album = await MediaLibrary.getAlbumAsync(albumName);
             if (album) {
                 const media = await MediaLibrary.getAssetsAsync({
-                    album: album,
+                    album,
                     mediaType: 'photo',
-                    first: 50, // Get the first 50 images
+                    first: 6,
                     sortBy: ['creationTime'],
                 });
-                setImages(media.assets);
+
+                // Separate the first 5 images and use the 6th as the "+" icon
+                const images = media.assets.slice(0, 5);
+                const plusIcon = { id: 'plus', uri: null }; // Placeholder for "+"
+                images.push(plusIcon);
+                setCapturedImages(images);
             } else {
-                Alert.alert('No Images', 'No images found in CameraGalleryApp.');
+                Toast.show({
+                    type: 'info',
+                    text1: 'No Images',
+                    text2: 'No images found in LeafLens folder.',
+                });
             }
         } catch (error) {
-            console.log('Error loading images: ', error);
+            console.error('Error loading images:', error);
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Failed to load captured images.',
+            });
         }
     };
 
-    // Open full gallery to upload an image
-    const openFullGallery = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            quality: 1,
-        });
+    // Load uploaded images from storage
+    const loadUploadedImages = async () => {
+        try {
+            const storedImages = await AsyncStorage.getItem('uploadedImages');
+            if (storedImages) {
+                setUploadedImages(JSON.parse(storedImages));
+            }
+        } catch (error) {
+            console.error('Error loading uploaded images:', error);
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Failed to load uploaded images.',
+            });
+        }
+    };
 
-        if (!result.canceled) {
-            setUploadedImages([...uploadedImages, { uri: result.assets[0].uri, id: Date.now().toString() }]);
+    // Open the device gallery to upload an image
+    const openFullGallery = async () => {
+        try {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                quality: 1,
+            });
+
+            if (!result.canceled) {
+                const newImage = { uri: result.assets[0].uri, id: Date.now().toString() };
+                setUploadedImages((prev) => {
+                    const updatedImages = [...prev, newImage];
+                    // Keep only the last 6 images (FIFO order)
+                    if (updatedImages.length > 6) {
+                        updatedImages.shift(); // Remove the oldest image
+                    }
+                    // Save to AsyncStorage
+                    AsyncStorage.setItem('uploadedImages', JSON.stringify(updatedImages));
+                    Toast.show({
+                        type: 'success',
+                        text1: 'Image Uploaded',
+                        text2: 'Your image has been successfully uploaded.',
+                    });
+                    return updatedImages;
+                });
+            }
+        } catch (error) {
+            console.error('Error opening gallery:', error);
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Failed to open the gallery.',
+            });
         }
     };
 
     return (
         <GestureHandlerRootView style={styles.container}>
-            {/* Captured Moments Section (Top) */}
-            <Text style={styles.header}>Captured Pictures</Text>
-
-            {images.length === 0 ? (
-                <Text style={styles.noImages}>No images found in CameraGalleryApp.</Text>
+            {/* Captured Images Section */}
+            <Text style={styles.header}>Captured Images</Text>
+            {capturedImages.length === 0 ? (
+                <Text style={styles.noImages}>No captured images found in LeafLens.</Text>
             ) : (
                 <FlatList
-                    data={images}
+                    data={capturedImages}
                     keyExtractor={(item) => item.id}
                     numColumns={3}
                     renderItem={({ item }) => (
-                        <TouchableOpacity onPress={() => setSelectedImage(item.uri)}>
-                            <Image source={{ uri: item.uri }} style={styles.image} />
+                        <TouchableOpacity
+                            onPress={() => item.id === 'plus' ? navigation.navigate('Camera') : setSelectedImage(item.uri)}
+                        >
+                            {item.id === 'plus' ? (
+                                <View style={styles.plusIcon}>
+                                    {capturedImages.length > 0 && (
+                                        <Image
+                                            source={{ uri: capturedImages[0].uri }}
+                                            style={styles.blurredBackground}
+                                            blurRadius={10} // Apply blur effect
+                                        />
+                                    )}
+                                    <Ionicons name="add" size={40} color={colors.primary} style={styles.plusIconText} />
+                                </View>
+                            ) : (
+                                <Image source={{ uri: item.uri }} style={styles.image} />
+                            )}
                         </TouchableOpacity>
                     )}
                 />
             )}
 
-            {/* Uploaded Images Section (Middle) */}
-            <Text style={styles.header}>Uploads</Text>
+            {/* Uploaded Images Section */}
+            <Text style={styles.header}>Uploaded Images</Text>
             {uploadedImages.length === 0 ? (
-                <Text style={styles.noImages}>No uploaded images yet.</Text>
+                <Text style={styles.noImages}>No image uploaded yet.</Text>
             ) : (
                 <FlatList
                     data={uploadedImages}
@@ -109,13 +188,18 @@ const GalleryScreen = () => {
                 />
             )}
 
-            {/* Upload Button (Bottom) */}
+            {/* Upload Button */}
             <TouchableOpacity style={styles.uploadButton} onPress={openFullGallery}>
                 <Text style={styles.uploadText}>Upload</Text>
             </TouchableOpacity>
 
             {/* Image Preview Modal */}
-            <Modal visible={!!selectedImage} transparent={true} animationType="fade">
+            <Modal
+                visible={Boolean(selectedImage)}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={() => setSelectedImage(null)} // Handle back button press
+            >
                 <View style={styles.modalContainer}>
                     {/* Back Button */}
                     <TouchableOpacity
@@ -125,7 +209,7 @@ const GalleryScreen = () => {
                         <Ionicons name="arrow-back" size={30} color="#fff" />
                     </TouchableOpacity>
 
-                    {/* Image Preview (No Zoom) */}
+                    {/* Image Preview */}
                     <Image
                         source={{ uri: selectedImage }}
                         style={styles.fullImage}
@@ -135,7 +219,7 @@ const GalleryScreen = () => {
                     {/* Analyze Button */}
                     <TouchableOpacity
                         style={styles.analyzeButton}
-                        onPress={() => alert('Analyze functionality coming soon!')}
+                        onPress={() => navigation.navigate('AnalyzeScreen', { imageUri: selectedImage })}
                     >
                         <Text style={styles.analyzeText}>Analyze</Text>
                     </TouchableOpacity>
@@ -144,48 +228,5 @@ const GalleryScreen = () => {
         </GestureHandlerRootView>
     );
 };
-
-const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#fff', paddingTop: 20 },
-    header: { fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginVertical: 10 },
-    noImages: { textAlign: 'center', marginTop: 10, fontSize: 14, color: 'grey' },
-    image: { width: 100, height: 100, margin: 5, borderRadius: 10 },
-    uploadButton: {
-        backgroundColor: '#007bff',
-        padding: 15,
-        borderRadius: 10,
-        alignItems: 'center',
-        marginHorizontal: 20,
-        marginBottom: 20,
-    },
-    uploadText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
-    modalContainer: {
-        flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.9)',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    fullImage: { width: '90%', height: '80%' },
-    backButton: {
-        position: 'absolute',
-        top: 40,
-        left: 20,
-        zIndex: 10,
-    },
-    analyzeButton: {
-        position: 'absolute',
-        bottom: '13%', // A little lower than middle
-        backgroundColor: '#28a745',
-        padding: 12,
-        borderRadius: 10,
-        width: 150,
-        alignItems: 'center',
-    },
-    analyzeText: {
-        color: '#fff',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-});
 
 export default GalleryScreen;
