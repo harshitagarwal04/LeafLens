@@ -65,13 +65,13 @@ const HomeScreen = ({ navigation }) => {
 
       {/* Dummy Link */}
       <TouchableOpacity
-        onPress={() => Linking.openURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ')}
+        onPress={() => Linking.openURL('https://leaflenss.streamlit.app/')}
       >
-        <Text style={styles.linkText}>Fuck and find out 😉</Text>
+        <Text style={styles.linkText}>Website Link</Text>
       </TouchableOpacity>
 
       {/* Version Text */}
-      <Text style={styles.versionText}>Version 1.0 - © 2025 LeafLens</Text>
+      <Text style={styles.versionText}>Version 2.0 - © 2025 LeafLens</Text>
     </View>
   );
 };
