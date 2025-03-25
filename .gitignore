@@ -35,6 +35,9 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# Ignore Expo TypeScript definition file
+expo-env.d.ts
+
 app-example
 
 work to do.txt

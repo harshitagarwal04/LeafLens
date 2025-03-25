@@ -11,28 +11,33 @@ const styles = StyleSheet.create({
     fontFamily: fonts.heading,
     fontSize: 28,
     color: colors.primary,
-    marginBottom: 5,
+    marginBottom: 10,
+    textAlign: 'center',
   },
   subtitle: {
     fontFamily: fonts.body,
     fontSize: 16,
     color: colors.text,
     marginBottom: 20,
+    textAlign: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-evenly', // Buttons side by side with space
     marginVertical: 20,
+    paddingHorizontal: 5, // Add spacing on sides
   },
   button: {
+    width: '45%', // Make buttons take 45% width
+    aspectRatio: 1, // Square buttons
     backgroundColor: colors.primary,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    marginHorizontal: 10,
+    justifyContent: 'center',
+    width: 160, // Explicit width (optional)
+    height: 100, // Explicit height (optional)
+    marginHorizontal: 5, // Increase this
+    marginVertical: 10,  // Add this
     alignItems: 'center',
-    flexDirection: 'row',
+    borderRadius: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
@@ -41,15 +46,23 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: fonts.body,
-    fontSize: 18,
+    fontSize: 16,
     color: colors.secondary,
-    marginLeft: 8,
+    marginTop: 5,
   },
   versionText: {
     fontFamily: fonts.body,
     fontSize: 14,
     color: colors.text,
     marginTop: 40,
+    textAlign: 'center',
+  },
+  linkText: {
+    marginTop: 20,
+    color: '#1E90FF',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+    textAlign: 'center',
   },
 });
 
