@@ -23,7 +23,7 @@ Make sure you have the following installed:
 ### Installation
 Clone the repository and install dependencies:
 ```bash
-git clone https://github.com/yourusername/LeafLens.git
+git clone https://github.com/harshitagarwal04/LeafLens.git
 cd LeafLens
 npm install
 ```
