@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { globalStyles, colors } from '../styles';
 import { Ionicons } from '@expo/vector-icons';
-import styles from './HomeScreenStyles';
+import styles from '../ScreenStyles/HomeScreenStyles';
 
 const HomeScreen = ({ navigation }) => {
   const pan = useRef(new Animated.ValueXY()).current;

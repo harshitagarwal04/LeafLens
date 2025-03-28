@@ -3,7 +3,7 @@ import { View, Image, Alert, TouchableOpacity, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import Toast from 'react-native-toast-message';
-import styles from './CameraScreenStyle.js';
+import styles from '../ScreenStyles/CameraScreenStyle';
 
 // Utility function to request permissions
 const requestPermissions = async () => {

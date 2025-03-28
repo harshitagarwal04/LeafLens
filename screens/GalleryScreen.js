@@ -4,7 +4,7 @@ import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
-import styles from './GalleryScreenStyle';
+import styles from '../ScreenStyles/GalleryScreenStyle';
 import { colors } from '../styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
