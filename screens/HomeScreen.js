@@ -1,30 +1,38 @@
-import React, { useRef } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  PanResponder,
-  Animated,
-  Linking,
-} from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { SafeAreaView, Text, TouchableWithoutFeedback, Keyboard, PanResponder, Animated, Linking, TouchableOpacity, View } from 'react-native';
 import { globalStyles, colors } from '../styles';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../ScreenStyles/HomeScreenStyles';
 
 const HomeScreen = ({ navigation }) => {
   const pan = useRef(new Animated.ValueXY()).current;
+  const animatedHint = useRef(new Animated.Value(0)).current;
 
-  // Handle swipe gestures
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(animatedHint, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(animatedHint, {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, []);
+
   const panResponder = useRef(
     PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponder: (evt, gestureState) => Math.abs(gestureState.dx) > 10 || Math.abs(gestureState.dy) > 10,
+      onMoveShouldSetPanResponder: (evt, gestureState) => Math.abs(gestureState.dx) > 10 || Math.abs(gestureState.dy) > 10,
       onPanResponderRelease: (evt, gestureState) => {
         if (gestureState.dx > 50) {
-          // Swipe right -> Open Camera
           navigation.navigate('Camera');
         } else if (gestureState.dx < -50) {
-          // Swipe left -> Open Gallery
           navigation.navigate('Gallery');
         }
         Animated.spring(pan, {
@@ -36,43 +44,54 @@ const HomeScreen = ({ navigation }) => {
   ).current;
 
   return (
-    <View
-      style={[globalStyles.container, { marginTop: -20 }]} // Moves everything UP
-      {...panResponder.panHandlers} // Attach pan handlers
-    >
-      {/* Logo and Welcome Message */}
-      <Text style={styles.title}>Welcome to LeafLens</Text>
-      <Text style={styles.subtitle}>Your Smart Plant Health Detector!</Text>
+    <SafeAreaView style={[globalStyles.container, { marginTop: -20 }]} {...panResponder.panHandlers}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={styles.title}>Welcome to LeafLens</Text>
+          <Text style={styles.subtitle}>Your Smart Plant Health Detector!</Text>
 
-      {/* Button Container */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Camera')}
-        >
-          <Ionicons name="camera" size={24} color={colors.secondary} />
-          <Text style={styles.buttonText}>Camera</Text>
-        </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate('Camera')} style={styles.button}>
+              <Ionicons name="camera" size={30} color={colors.secondary} />
+              <Text style={styles.buttonText}>Camera</Text>
+              <Animated.Text
+                style={{
+                  color: colors.secondary,
+                  fontSize: 10,
+                  marginTop: 4,
+                  opacity: animatedHint,
+                  transform: [{ translateX: animatedHint.interpolate({ inputRange: [0, 1], outputRange: [0, 5] }) }],
+                }}
+              >
+                Swipe right →
+              </Animated.Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Gallery')}
-        >
-          <Ionicons name="images" size={24} color={colors.secondary} />
-          <Text style={styles.buttonText}>Gallery</Text>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity onPress={() => navigation.navigate('Gallery')} style={styles.button}>
+              <Ionicons name="images" size={28} color={colors.secondary} />
+              <Text style={styles.buttonText}>Gallery</Text>
+              <Animated.Text
+                style={{
+                  color: colors.secondary,
+                  fontSize: 10,
+                  marginTop: 4,
+                  opacity: animatedHint,
+                  transform: [{ translateX: animatedHint.interpolate({ inputRange: [0, 1], outputRange: [0, -5] }) }],
+                }}
+              >
+                ← Swipe left
+              </Animated.Text>
+            </TouchableOpacity>
+          </View>
 
-      {/* Dummy Link */}
-      <TouchableOpacity
-        onPress={() => Linking.openURL('https://leaflenss.streamlit.app/')}
-      >
-        <Text style={styles.linkText}>Website Link</Text>
-      </TouchableOpacity>
+          <TouchableOpacity onPress={() => Linking.openURL('https://leaflenss.streamlit.app/')}>
+            <Text style={styles.linkText}>Website Link</Text>
+          </TouchableOpacity>
 
-      {/* Version Text */}
-      <Text style={styles.versionText}>Version 2.0 - © 2025 LeafLens</Text>
-    </View>
+          <Text style={styles.versionText}>Version 2.0 - © 2025 LeafLens</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 };
 
