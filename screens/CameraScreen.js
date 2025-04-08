@@ -109,7 +109,7 @@ const CameraScreen = ({ navigation }) => {
                             <Text style={styles.buttonText}>Take Again</Text>
                         </TouchableOpacity>
                         <View style={{ width: 10 }} /> 
-                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AnalyzeScreen', { imageUri: image })}>
+                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Analyze', { imageUri: image })}>
                             <Text style={styles.buttonText}>Analyse</Text>
                         </TouchableOpacity> 
                     </View>

@@ -224,7 +224,7 @@ const GalleryScreen = ({ navigation }) => {
             style={styles.analyzeButton}
             onPress={() => {
               setSelectedImage(null);
-              navigation.navigate('AnalyzeScreen', { imageUri: selectedImage });
+              navigation.navigate('Analyze', { imageUri: selectedImage });
             }}
           >
             <Text style={styles.analyzeText}>Analyze</Text>
