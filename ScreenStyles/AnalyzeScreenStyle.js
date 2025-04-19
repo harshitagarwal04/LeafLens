@@ -1,0 +1,96 @@
+import { StyleSheet } from 'react-native';
+
+const style = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: '#eafaf1',
+    padding: 20,
+    justifyContent: 'flex-start',
+    paddingBottom: 40,
+  },
+  imagePreview: {
+    width: '100%',
+    height: 250,
+    resizeMode: 'contain',
+    marginBottom: 20,
+    borderRadius: 20,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    borderWidth: 2,
+    borderColor: '#8fd19e',
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#2e7d32',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  resultText: {
+    fontSize: 18,
+    color: '#2e7d32',
+    marginBottom: 12,
+    lineHeight: 24,
+    fontWeight: '500',
+  },
+  confidenceText: {
+    fontSize: 16,
+    color: '#555',
+    marginBottom: 10,
+    fontStyle: 'italic',
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#c5e1a5',
+    marginVertical: 10,
+  },
+  analysisContainer: {
+    backgroundColor: '#ffffff',
+    padding: 15,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#c8e6c9',
+    marginBottom: 20,
+  },
+  errorText: {
+    fontSize: 18,
+    color: '#d32f2f',
+    marginTop: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  loader: {
+    marginTop: 20,
+  },
+  backButton: {
+    marginTop: 20,
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: '#4caf50',
+    borderRadius: 8,
+    alignItems: 'center',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#ffffff',
+  },
+  text: {
+    fontSize: 14,
+    color: '#333',
+    lineHeight: 20,
+  },
+});
+
+export default style;

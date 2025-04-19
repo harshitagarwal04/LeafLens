@@ -1,7 +1,0 @@
-fastapi
-uvicorn
-torch
-Pillow
-torchvision
-transformers  == 4.38.2
-python-multipart
