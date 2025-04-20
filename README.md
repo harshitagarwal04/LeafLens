@@ -57,10 +57,10 @@ The project follows a clean and modular structure:
 ```
 LeafLens/
 ├── assets/         # Image and media assets
-├── components/     # Reusable components
-├── screens/        # UI screens (Camera, Gallery, Analyze)
-├── styles/         # Centralized styling files
 ├── App.js          # Entry point of the application
+├── screens/        # UI screens (Camera, Gallery, Analyze)
+├── ScreenStyles/   # Centralized styling files
+├── utils/          # Api linking file
 └── README.md       # Project documentation
 ```
 
