@@ -9,7 +9,7 @@ export const uploadImageForPrediction = async (imageUri) => {
   });
 
   try {
-    const response = await axios.post('http://192.168.1.8:7860/predict/', formData, {
+    const response = await axios.post('https://harshitagarwal04-leaflens-backend.hf.space/predict/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
