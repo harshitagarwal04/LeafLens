@@ -4,7 +4,7 @@
     "slug": "LeafLens",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/test_icon.jpg",
+    "icon": "./assets/images/splashscreen_logo.jpg",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.harshitagarwal.leaflens"
     },
     "web": {
       "bundler": "metro",
@@ -35,7 +36,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/icon.jpg",
+          "image": "./assets/images/splashscreen_logo.jpg",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
@@ -45,6 +46,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "7ef6debe-f6e0-4303-b0b9-b50cf989c3c7"
+      }
     }
   }
 }
