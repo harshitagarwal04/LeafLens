@@ -38,7 +38,9 @@ yarn-error.*
 # Ignore Expo TypeScript definition file
 expo-env.d.ts
 
-app-example
+.env
+
+# Ignore IDE specific files
 
 work to do.txt
 
