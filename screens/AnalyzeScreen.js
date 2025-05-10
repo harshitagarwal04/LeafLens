@@ -10,6 +10,11 @@ const AnalyzeScreen = () => {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Dropdown states
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [causesOpen, setCausesOpen] = useState(false);
+  const [treatmentOpen, setTreatmentOpen] = useState(false);
+
   useEffect(() => {
     const analyze = async () => {
       try {
@@ -45,26 +50,50 @@ const AnalyzeScreen = () => {
 
           <View style={style.divider} />
 
-          <View style={style.analysisContainer}>
-            <Text style={style.resultText}>About this Disease:</Text>
-            <Text style={style.text}>
-            {result?.description || 'No description available.'}
+          {/* About Dropdown */}
+          <TouchableOpacity
+            style={style.analysisContainer}
+            onPress={() => setAboutOpen((prev) => !prev)}
+          >
+            <Text style={style.resultText}>
+              About this Disease {aboutOpen ? '▲' : '▼'}
             </Text>
-          </View>
+            {aboutOpen && (
+              <Text style={style.text}>
+                {result?.description || 'No description available.'}
+              </Text>
+            )}
+          </TouchableOpacity>
 
-          <View style={style.analysisContainer}>
-            <Text style={style.resultText}>More Details:</Text>
-            <Text style={style.text}>
-              {result?.more_details || 'No further details available.'}
+          {/* Causes Dropdown */}
+          <TouchableOpacity
+            style={style.analysisContainer}
+            onPress={() => setCausesOpen((prev) => !prev)}
+          >
+            <Text style={style.resultText}>
+              Causes {causesOpen ? '▲' : '▼'}
             </Text>
-          </View>
+            {causesOpen && (
+              <Text style={style.text}>
+                {result?.causes || 'No further details available.'}
+              </Text>
+            )}
+          </TouchableOpacity>
 
-          <View style={style.analysisContainer}>
-            <Text style={style.resultText}>Treatment:</Text>
-            <Text style={style.text}>
-              {result?.treatment || 'No treatment information available.'}
+          {/* Treatment Dropdown */}
+          <TouchableOpacity
+            style={style.analysisContainer}
+            onPress={() => setTreatmentOpen((prev) => !prev)}
+          >
+            <Text style={style.resultText}>
+              Treatment {treatmentOpen ? '▲' : '▼'}
             </Text>
-          </View>
+            {treatmentOpen && (
+              <Text style={style.text}>
+                {result?.treatment || 'No treatment information available.'}
+              </Text>
+            )}
+          </TouchableOpacity>
 
           <TouchableOpacity
             style={style.backButton}
@@ -78,18 +107,18 @@ const AnalyzeScreen = () => {
           <TouchableOpacity
             style={style.backButton}
             onPress={async () => {
-            try {
-              await Share.share({
-              message: `Prediction: ${result.prediction}\nConfidence: ${result.confidence.toFixed(2)}%\nShared from LeafLens 🌿`,
-              url: imageUri,
-              });
-            } catch (error) {
-            console.error('Error sharing:', error);
-            }
-          }}
+              try {
+                await Share.share({
+                  message: `Prediction: ${result.prediction}\nConfidence: ${result.confidence?.toFixed(2) ?? 'N/A'}%\nShared from LeafLens 🌿`,
+                  url: imageUri,
+                });
+              } catch (error) {
+                console.error('Error sharing:', error);
+              }
+            }}
           >
-        <Text style={style.buttonText}>Share Result</Text>
-        </TouchableOpacity>
+            <Text style={style.buttonText}>Share Result</Text>
+          </TouchableOpacity>
         </>
       )}
     </ScrollView>

@@ -20,7 +20,7 @@ export const uploadImageForPrediction = async (imageUri) => {
       confidence: response.data.confidence,
       description: response.data.description,
       treatment: response.data.treatment,
-      more_details: response.data.more_details,
+      causes: response.data.causes,
     };
   } catch (error) {
     console.error('Prediction API Error:', error);

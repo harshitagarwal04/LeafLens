@@ -4,9 +4,14 @@
     "slug": "LeafLens",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/splashscreen_logo.png",
+    "icon": "./assets/images/splash-icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/leaflens_opening.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#f4edd7"
+    },
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
@@ -21,7 +26,7 @@
       ],
       "useNextNotificationsApi": true,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/splash-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.harshitagarwal.leaflens"
@@ -33,15 +38,6 @@
     },
     "plugins": [
       "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splashscreen_logo.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ],
       "expo-font"
     ],
     "experiments": {
