@@ -6,6 +6,7 @@ import HomeScreen from './screens/HomeScreen';
 import CameraScreen from './screens/CameraScreen';
 import GalleryScreen from './screens/GalleryScreen';
 import AnalyzeScreen from './screens/AnalyzeScreen';
+import GuideScreen from './screens/GuideScreen';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import Toast from 'react-native-toast-message';
@@ -35,7 +36,7 @@ const App = () => {
   }
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }}>
         <NavigationContainer theme={DefaultTheme}>
           <Stack.Navigator 
             initialRouteName="LeafLens" 
@@ -48,6 +49,7 @@ const App = () => {
             <Stack.Screen name="Camera" component={CameraScreen} />
             <Stack.Screen name="Gallery" component={GalleryScreen} />
             <Stack.Screen name="Analyze" component={AnalyzeScreen} />
+            <Stack.Screen name="Guide" component={GuideScreen} />
           </Stack.Navigator>
         </NavigationContainer>
         <Toast />
