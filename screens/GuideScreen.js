@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, Text, Button, Modal, ScrollView } from 'react-native';
 import GuideScreenStyle from '../ScreenStyles/GuideScreenStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
