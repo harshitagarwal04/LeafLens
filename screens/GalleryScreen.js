@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity, Alert, Modal, BackHandler } from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity, ImageBackground, Modal, BackHandler } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -146,92 +146,100 @@ const GalleryScreen = ({ navigation }) => {
   };
 
   return (
-    <GestureHandlerRootView style={styles.container}>
-      {/* Captured Images Section */}
-      <Text style={styles.header}>Captured Images</Text>
-      {capturedImages.length === 0 ? (
-        <Text style={styles.noImages}>No captured images found in LeafLens.</Text>
-      ) : (
-        <FlatList
-          data={capturedImages}
-          keyExtractor={(item) => item.id}
-          numColumns={3}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() =>
-                item.id === 'plus' ? navigation.navigate('Camera') : setSelectedImage(item.uri)
-              }
-            >
-              {item.id === 'plus' ? (
-                <View style={styles.plusIcon}>
-                  {capturedImages.length > 0 && (
-                    <Image
-                      source={{ uri: capturedImages[0]?.uri }}
-                      style={styles.blurredBackground}
-                      blurRadius={10}
-                    />
+    <ImageBackground
+      source={require('../assets/images/background_image.png')}
+      style={{ flex: 1, width: '100%', height: '100%' }}
+      resizeMode="cover"
+    >
+      <View style={{ flex: 1, backgroundColor: 'rgba(24,28,36,0.7)' }}>
+        <GestureHandlerRootView style={styles.container}>
+          {/* Captured Images Section */}
+          <Text style={styles.header}>Captured Images</Text>
+          {capturedImages.length === 0 ? (
+            <Text style={styles.noImages}>No captured images found in LeafLens.</Text>
+          ) : (
+            <FlatList
+              data={capturedImages}
+              keyExtractor={(item) => item.id}
+              numColumns={3}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() =>
+                    item.id === 'plus' ? navigation.navigate('Camera') : setSelectedImage(item.uri)
+                  }
+                >
+                  {item.id === 'plus' ? (
+                    <View style={styles.plusIcon}>
+                      {capturedImages.length > 0 && (
+                        <Image
+                          source={{ uri: capturedImages[0]?.uri }}
+                          style={styles.blurredBackground}
+                          blurRadius={10}
+                        />
+                      )}
+                      <Ionicons name="add" size={40} color={colors.primary} style={styles.plusIconText} />
+                    </View>
+                  ) : (
+                    <Image source={{ uri: item.uri }} style={styles.image} />
                   )}
-                  <Ionicons name="add" size={40} color={colors.primary} style={styles.plusIconText} />
-                </View>
-              ) : (
-                <Image source={{ uri: item.uri }} style={styles.image} />
+                </TouchableOpacity>
               )}
-            </TouchableOpacity>
+            />
           )}
-        />
-      )}
 
-      {/* Uploaded Images Section */}
-      <Text style={styles.header}>Uploaded Images</Text>
-      {uploadedImages.length === 0 ? (
-        <Text style={styles.noImages}>No image uploaded yet.</Text>
-      ) : (
-        <FlatList
-          data={uploadedImages}
-          keyExtractor={(item) => item.id}
-          numColumns={3}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => setSelectedImage(item.uri)}>
-              <Image source={{ uri: item.uri }} style={styles.image} />
-            </TouchableOpacity>
+          {/* Uploaded Images Section */}
+          <Text style={styles.header}>Uploaded Images</Text>
+          {uploadedImages.length === 0 ? (
+            <Text style={styles.noImages}>No image uploaded yet.</Text>
+          ) : (
+            <FlatList
+              data={uploadedImages}
+              keyExtractor={(item) => item.id}
+              numColumns={3}
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => setSelectedImage(item.uri)}>
+                  <Image source={{ uri: item.uri }} style={styles.image} />
+                </TouchableOpacity>
+              )}
+            />
           )}
-        />
-      )}
 
-      {/* Upload Button */}
-      <TouchableOpacity style={styles.uploadButton} onPress={openFullGallery}>
-        <Text style={styles.uploadText}>Upload</Text>
-      </TouchableOpacity>
-
-      {/* Image Preview Modal */}
-      <Modal
-        visible={Boolean(selectedImage)}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => setSelectedImage(null)}
-      >
-        <View style={styles.modalContainer}>
-          {/* Back Button */}
-          <TouchableOpacity style={styles.backButton} onPress={() => setSelectedImage(null)}>
-            <Ionicons name="arrow-back" size={30} color="#fff" />
+          {/* Upload Button */}
+          <TouchableOpacity style={styles.uploadButton} onPress={openFullGallery}>
+            <Text style={styles.uploadText}>Upload</Text>
           </TouchableOpacity>
 
-          {/* Image Preview */}
-          <Image source={{ uri: selectedImage }} style={styles.fullImage} resizeMode="contain" />
-
-          {/* Analyze Button */}
-          <TouchableOpacity
-            style={styles.analyzeButton}
-            onPress={() => {
-              setSelectedImage(null);
-              navigation.navigate('Analyze', { imageUri: selectedImage });
-            }}
+          {/* Image Preview Modal */}
+          <Modal
+            visible={Boolean(selectedImage)}
+            transparent={true}
+            animationType="fade"
+            onRequestClose={() => setSelectedImage(null)}
           >
-            <Text style={styles.analyzeText}>Analyze</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-    </GestureHandlerRootView>
+            <View style={styles.modalContainer}>
+              {/* Back Button */}
+              <TouchableOpacity style={styles.backButton} onPress={() => setSelectedImage(null)}>
+                <Ionicons name="arrow-back" size={30} color="#fff" />
+              </TouchableOpacity>
+
+              {/* Image Preview */}
+              <Image source={{ uri: selectedImage }} style={styles.fullImage} resizeMode="contain" />
+
+              {/* Analyze Button */}
+              <TouchableOpacity
+                style={styles.analyzeButton}
+                onPress={() => {
+                  setSelectedImage(null);
+                  navigation.navigate('Analyze', { imageUri: selectedImage });
+                }}
+              >
+                <Text style={styles.analyzeText}>Analyze</Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>
+        </GestureHandlerRootView>
+      </View>
+    </ImageBackground>
   );
 };
 

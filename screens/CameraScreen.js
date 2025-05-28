@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Image, Alert, TouchableOpacity, Text } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, Image, Alert, TouchableOpacity, Text, ImageBackground } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import Toast from 'react-native-toast-message';
@@ -96,26 +96,34 @@ const CameraScreen = ({ navigation }) => {
     const [image, setImage] = useState(null);
 
     useEffect(() => {
-        openCamera(setImage, navigation); // Open camera when the screen loads
+        openCamera(setImage, navigation);
     }, []);
 
     return (
-        <View style={styles.container}>
-            {image && (
-                <>
-                    <Image source={{ uri: image }} style={styles.image} />
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={() => openCamera(setImage, navigation)}>
-                            <Text style={styles.buttonText}>Take Again</Text>
-                        </TouchableOpacity>
-                        <View style={{ width: 10 }} /> 
-                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Analyze', { imageUri: image })}>
-                            <Text style={styles.buttonText}>Analyse</Text>
-                        </TouchableOpacity> 
-                    </View>
-                </>
-            )}
-        </View>
+        <ImageBackground
+            source={require('../assets/images/background_image.png')}
+            style={{ flex: 1, width: '100%', height: '100%' }}
+            resizeMode="cover"
+        >
+            <View style={{ flex: 1, backgroundColor: 'rgba(24,28,36,0.7)' }}>
+                <View style={styles.container}>
+                    {image && (
+                        <>
+                            <Image source={{ uri: image }} style={styles.image} />
+                            <View style={styles.buttonContainer}>
+                                <TouchableOpacity style={styles.button} onPress={() => openCamera(setImage, navigation)}>
+                                    <Text style={styles.buttonText}>Take Again</Text>
+                                </TouchableOpacity>
+                                <View style={{ width: 10 }} /> 
+                                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Analyze', { imageUri: image })}>
+                                    <Text style={styles.buttonText}>Analyse</Text>
+                                </TouchableOpacity> 
+                            </View>
+                        </>
+                    )}
+                </View>
+            </View>
+        </ImageBackground>
     );
 };
 
