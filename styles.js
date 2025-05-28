@@ -1,15 +1,19 @@
 import { StyleSheet } from 'react-native';
 
 export const colors = {
-    primary: '#4CAF50',    // Leafy Green
-    secondary: '#FFFFFF',  // White
-    accent: '#2E7D32',     // Dark Green
-    text: '#333333',       // Charcoal
+    primary: '#181C24',    // Deep dark blue-grey
+    secondary: '#232A34',  // Slightly lighter dark for cards
+    accent: '#FFB300',     // Vibrant orange
+    text: '#F8F8F8',       // Almost white
+    green: '#43A047',      // Vibrant dark green
+    blue: '#29B6F6',       // Accent blue for highlights
+    border: '#263238',     // Subtle border color
+    shadow: '#000A',       // Shadow with alpha
 };
 
 export const fonts = {
-    heading: 'Poppins',  // Font for headings
-    body: 'Roboto',      // Font for body text
+    heading: 'Poppins',
+    body: 'Roboto',
 };
 
 export const globalStyles = StyleSheet.create({
@@ -17,13 +21,13 @@ export const globalStyles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.secondary,
     },
     heading: {
         fontFamily: fonts.heading,
-        fontSize: 24,
-        color: colors.primary,
-        marginBottom: 10,
+        fontSize: 26,
+        color: colors.accent,
+        marginBottom: 12,
+        letterSpacing: 1,
     },
     text: {
         fontFamily: fonts.body,
@@ -31,14 +35,21 @@ export const globalStyles = StyleSheet.create({
         color: colors.text,
     },
     button: {
-        backgroundColor: colors.primary,
-        padding: 10,
-        borderRadius: 8,
-        margin: 5,
+        backgroundColor: colors.green,
+        padding: 12,
+        borderRadius: 10,
+        margin: 6,
+        shadowColor: colors.shadow,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
     },
     buttonText: {
         fontFamily: fonts.body,
         fontSize: 16,
-        color: colors.secondary,
+        color: colors.text,
+        fontWeight: 'bold',
+        letterSpacing: 1,
     },
 });

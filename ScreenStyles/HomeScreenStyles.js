@@ -2,6 +2,16 @@ import { StyleSheet } from 'react-native';
 import { colors, fonts } from '../styles';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  innerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   logo: {
     width: 100,
     height: 100,
@@ -9,60 +19,92 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: fonts.heading,
-    fontSize: 28,
-    color: colors.primary,
-    marginBottom: 10,
+    fontSize: 30,
+    color: colors.accent,
+    marginBottom: 12,
     textAlign: 'center',
+    letterSpacing: 1,
+    textShadowColor: colors.shadow,
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 6,
   },
   subtitle: {
     fontFamily: fonts.body,
-    fontSize: 16,
-    color: colors.text,
-    marginBottom: 20,
+    fontSize: 17,
+    color: colors.blue,
+    marginBottom: 22,
     textAlign: 'center',
+    letterSpacing: 0.5,
+    textShadowColor: colors.shadow,
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly', // Buttons side by side with space
+    justifyContent: 'space-evenly',
     marginVertical: 20,
-    paddingHorizontal: 5, // Add spacing on sides
+    paddingHorizontal: 5,
   },
   button: {
-    width: '45%', // Make buttons take 45% width
-    aspectRatio: 1, // Square buttons
+    width: '45%',             // Responsive width
+    aspectRatio: 1,           // Square buttons
     backgroundColor: colors.primary,
     justifyContent: 'center',
-    width: 160, // Explicit width (optional)
-    height: 100, // Explicit height (optional)
-    marginHorizontal: 5, // Increase this
-    marginVertical: 10,  // Add this
     alignItems: 'center',
+    marginHorizontal: 5,
+    marginVertical: 10,
     borderRadius: 12,
-    shadowColor: '#000',
+    shadowColor: colors.shadow, // Modern shadow color
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    borderWidth: 1.5,
+    borderColor: colors.border,
   },
   buttonText: {
     fontFamily: fonts.body,
-    fontSize: 16,
-    color: colors.secondary,
-    marginTop: 5,
+    fontSize: 17,
+    color: colors.text,
+    marginTop: 7,
+    fontWeight: 'bold',
+    letterSpacing: 1,
+    textShadowColor: colors.shadow,
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   versionText: {
     fontFamily: fonts.body,
     fontSize: 14,
-    color: colors.text,
+    color: colors.blue,
     marginTop: 40,
     textAlign: 'center',
+    letterSpacing: 0.5,
+    opacity: 0.8,
   },
   linkText: {
-    marginTop: 20,
-    color: '#1E90FF',
+    marginTop: 22,
+    color: colors.accent,
     fontSize: 16,
     textDecorationLine: 'underline',
     textAlign: 'center',
+    fontWeight: 'bold',
+    letterSpacing: 0.5,
+    textShadowColor: colors.shadow,
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
+  },
+  swipeHint: {
+    color: colors.accent,
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 8,
+    textAlign: 'center',
+    letterSpacing: 1,
+    textShadowColor: colors.shadow,
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
+    opacity: 0.95,
   },
 });
 

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Text, Image, ActivityIndicator, TouchableOpacity, Share } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ScrollView, View, Text, Image, ActivityIndicator, TouchableOpacity, Share, ImageBackground } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { uploadImageForPrediction } from '../utils/uploadImage';
 import style from '../ScreenStyles/AnalyzeScreenStyle';
@@ -30,98 +30,118 @@ const AnalyzeScreen = () => {
     analyze();
   }, [imageUri]);
 
-  if (loading) return <ActivityIndicator size="large" style={{ marginTop: 20 }} />;
+  if (loading) {
+    return (
+      <ImageBackground
+        source={{ uri: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80' }}
+        style={{ flex: 1 }}
+        resizeMode="cover"
+      >
+        <View style={{ flex: 1, backgroundColor: 'rgba(24,28,36,0.3)', justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color="#FFB300" />
+        </View>
+      </ImageBackground>
+    );
+  }
 
   return (
-    <ScrollView contentContainerStyle={style.container}>
-      <Image source={{ uri: imageUri }} style={style.imagePreview} />
+    <ImageBackground
+      source={require('../assets/images/background_image.png')}
+      style={{ flex: 1, width: '100%', height: '100%' }}
+      resizeMode="cover"
+    >
+      <View style={{ flex: 1, backgroundColor: 'rgba(24,28,36,0.7)' }}>
+        <ScrollView contentContainerStyle={style.container}>
+          <Image source={{ uri: imageUri }} style={style.imagePreview} />
 
-      {result?.error ? (
-        <Text style={style.errorText}>{result.error}</Text>
-      ) : (
-        <>
-          <Text style={style.headerText}>{result.prediction}</Text>
-          <Text style={style.confidenceText}>
-            Confidence:{' '}
-            {result.confidence != null
-              ? result.confidence + '%'
-              : 'N/A'}
-          </Text>
-
-          <View style={style.divider} />
-
-          {/* About Dropdown */}
-          <TouchableOpacity
-            style={style.analysisContainer}
-            onPress={() => setAboutOpen((prev) => !prev)}
-          >
-            <Text style={style.resultText}>
-              About this Disease {aboutOpen ? '▲' : '▼'}
-            </Text>
-            {aboutOpen && (
-              <Text style={style.text}>
-                {result?.description || 'No description available.'}
+          {result?.error ? (
+            <Text style={style.errorText}>{result.error}</Text>
+          ) : (
+            <>
+              <Text style={style.headerText}>{result.prediction}</Text>
+              <Text style={style.confidenceText}>
+                Confidence:{' '}
+                {result.confidence != null
+                  ? result.confidence + '%'
+                  : 'N/A'}
               </Text>
-            )}
-          </TouchableOpacity>
 
-          {/* Causes Dropdown */}
-          <TouchableOpacity
-            style={style.analysisContainer}
-            onPress={() => setCausesOpen((prev) => !prev)}
-          >
-            <Text style={style.resultText}>
-              Causes {causesOpen ? '▲' : '▼'}
-            </Text>
-            {causesOpen && (
-              <Text style={style.text}>
-                {result?.causes || 'No further details available.'}
-              </Text>
-            )}
-          </TouchableOpacity>
+              <View style={style.divider} />
 
-          {/* Treatment Dropdown */}
-          <TouchableOpacity
-            style={style.analysisContainer}
-            onPress={() => setTreatmentOpen((prev) => !prev)}
-          >
-            <Text style={style.resultText}>
-              Treatment {treatmentOpen ? '▲' : '▼'}
-            </Text>
-            {treatmentOpen && (
-              <Text style={style.text}>
-                {result?.treatment || 'No treatment information available.'}
-              </Text>
-            )}
-          </TouchableOpacity>
+              {/* About Dropdown */}
+              <TouchableOpacity
+                style={style.analysisContainer}
+                onPress={() => setAboutOpen((prev) => !prev)}
+              >
+                <Text style={style.resultText}>
+                  About this Disease {aboutOpen ? '▲' : '▼'}
+                </Text>
+                {aboutOpen && (
+                  <Text style={style.text}>
+                    {result?.description || 'No description available.'}
+                  </Text>
+                )}
+              </TouchableOpacity>
 
-          <TouchableOpacity
-            style={style.backButton}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <Text style={style.buttonText}>Retry</Text>
-          </TouchableOpacity>
+              {/* Causes Dropdown */}
+              <TouchableOpacity
+                style={style.analysisContainer}
+                onPress={() => setCausesOpen((prev) => !prev)}
+              >
+                <Text style={style.resultText}>
+                  Causes {causesOpen ? '▲' : '▼'}
+                </Text>
+                {causesOpen && (
+                  <Text style={style.text}>
+                    {result?.causes || 'No further details available.'}
+                  </Text>
+                )}
+              </TouchableOpacity>
 
-          <TouchableOpacity
-            style={style.backButton}
-            onPress={async () => {
-              try {
-                await Share.share({
-                  message: `Prediction: ${result.prediction}\nConfidence: ${result.confidence?.toFixed(2) ?? 'N/A'}%\nShared from LeafLens 🌿`,
-                  url: imageUri,
-                });
-              } catch (error) {
-                console.error('Error sharing:', error);
-              }
-            }}
-          >
-            <Text style={style.buttonText}>Share Result</Text>
-          </TouchableOpacity>
-        </>
-      )}
-    </ScrollView>
+              {/* Treatment Dropdown */}
+              <TouchableOpacity
+                style={style.analysisContainer}
+                onPress={() => setTreatmentOpen((prev) => !prev)}
+              >
+                <Text style={style.resultText}>
+                  Treatment {treatmentOpen ? '▲' : '▼'}
+                </Text>
+                {treatmentOpen && (
+                  <Text style={style.text}>
+                    {result?.treatment || 'No treatment information available.'}
+                  </Text>
+                )}
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={style.backButton}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+              >
+                <Text style={style.buttonText}>Retry</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={style.backButton}
+                onPress={async () => {
+                  try {
+                    await Share.share({
+                      message: `Prediction: ${result.prediction}\nConfidence: ${result.confidence?.toFixed(2) ?? 'N/A'}%\nShared from LeafLens 🌿`,
+                      url: imageUri,
+                    });
+                  } catch (error) {
+                    console.error('Error sharing:', error);
+                  }
+                }}
+              >
+                <Text style={style.buttonText}>Share Result</Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </ScrollView>
+      </View>
+    </ImageBackground>
   );
 };
 

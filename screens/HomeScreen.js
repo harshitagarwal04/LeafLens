@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Text, TouchableWithoutFeedback, Keyboard, PanResponder, Animated, Linking, TouchableOpacity, View, ImageBackground } from 'react-native';
 import { globalStyles, colors } from '../styles';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../ScreenStyles/HomeScreenStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { guideSession } from '../utils/guideFlag';
+import GuideScreen from './GuideScreen'; // Import your modal GuideScreen
 
 const HomeScreen = ({ navigation }) => {
   const pan = React.useRef(new Animated.ValueXY()).current;
   const animatedHint = React.useRef(new Animated.Value(0)).current;
+  const [showGuide, setShowGuide] = useState(false);
 
   useEffect(() => {
     const checkGuidePreference = async () => {
@@ -16,7 +18,7 @@ const HomeScreen = ({ navigation }) => {
         const dontShow = await AsyncStorage.getItem('dontShowGuide');
         if (!dontShow) {
           guideSession.checked = true;
-          navigation.replace('Guide');
+          setShowGuide(true); // Show as modal
         } else {
           guideSession.checked = true;
         }
@@ -115,6 +117,7 @@ const HomeScreen = ({ navigation }) => {
             </View>
           </TouchableWithoutFeedback>
         </SafeAreaView>
+        <GuideScreen visible={showGuide} onClose={() => setShowGuide(false)} />
       </View>
     </ImageBackground>
   );
