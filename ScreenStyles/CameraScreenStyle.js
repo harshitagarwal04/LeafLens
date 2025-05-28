@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         borderRadius: 14,
         borderWidth: 2,
         borderColor: colors.green,
-        backgroundColor: colors.secondary,
+        backgroundColor: colors.card,
         shadowColor: colors.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.18,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     buttonText: {
         fontFamily: fonts.body,
         fontSize: 18,
-        color: colors.text,
+        color: colors.heading,
         fontWeight: 'bold',
         letterSpacing: 1,
     },

@@ -3,7 +3,7 @@ import { colors, fonts } from '../styles';
 
 const style = StyleSheet.create({
   container: {
-    flex: 1, // <-- This is the key fix!
+    flex: 1,
     padding: 24,
     justifyContent: 'flex-start',
     paddingBottom: 40,
@@ -18,6 +18,7 @@ const style = StyleSheet.create({
     borderTopRightRadius: 40,
     borderWidth: 2,
     borderColor: colors.green,
+    backgroundColor: colors.card,
     shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.18,
@@ -28,7 +29,7 @@ const style = StyleSheet.create({
     fontFamily: fonts.heading,
     fontSize: 26,
     fontWeight: 'bold',
-    color: colors.accent,
+    color: colors.heading,
     textAlign: 'center',
     marginBottom: 18,
     letterSpacing: 1,
@@ -54,10 +55,12 @@ const style = StyleSheet.create({
   },
   divider: {
     height: 1,
+    backgroundColor: colors.green,
     marginVertical: 10,
     opacity: 0.7,
   },
   analysisContainer: {
+    backgroundColor: colors.card,
     padding: 18,
     borderRadius: 14,
     borderWidth: 1,
@@ -84,6 +87,7 @@ const style = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     padding: 12,
+    backgroundColor: colors.green,
     borderRadius: 10,
     alignItems: 'center',
     elevation: 3,
@@ -96,7 +100,7 @@ const style = StyleSheet.create({
     fontFamily: fonts.body,
     fontSize: 16,
     fontWeight: 'bold',
-    color: colors.text,
+    color: colors.heading,
     letterSpacing: 1,
   },
   text: {

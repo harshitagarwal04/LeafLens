@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: fonts.heading,
     fontSize: 30,
-    color: colors.accent,
+    color: colors.heading,
     marginBottom: 12,
     textAlign: 'center',
     letterSpacing: 1,
@@ -46,15 +46,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   button: {
-    width: '45%',             // Responsive width
-    aspectRatio: 1,           // Square buttons
-    backgroundColor: colors.primary,
+    width: '45%',
+    aspectRatio: 1,
+    backgroundColor: colors.card,
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 5,
     marginVertical: 10,
     borderRadius: 12,
-    shadowColor: colors.shadow, // Modern shadow color
+    shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: fonts.body,
     fontSize: 17,
-    color: colors.text,
+    color: colors.heading,
     marginTop: 7,
     fontWeight: 'bold',
     letterSpacing: 1,

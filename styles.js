@@ -1,14 +1,15 @@
 import { StyleSheet } from 'react-native';
 
 export const colors = {
-    primary: '#181C24',    // Deep dark blue-grey
-    secondary: '#232A34',  // Slightly lighter dark for cards
-    accent: '#FFB300',     // Vibrant orange
-    text: '#F8F8F8',       // Almost white
-    green: '#43A047',      // Vibrant dark green
-    blue: '#29B6F6',       // Accent blue for highlights
-    border: '#263238',     // Subtle border color
-    shadow: '#000A',       // Shadow with alpha
+    primary: 'rgba(24,28,36,0.3)', // Overlay, not used directly as bg
+    card: 'rgba(30,34,40,0.85)',   // Card/container bg
+    accent: '#FFB300',             // Vibrant orange
+    text: '#F5F5F5',               // Soft white for body text
+    heading: '#FFFFFF',            // Pure white for headings
+    green: '#388E3C',              // Deep green for secondary buttons
+    blue: '#29B6F6',               // Accent blue for links
+    border: '#4CAF50',             // Subtle green border
+    shadow: '#000A',               // Shadow with alpha
 };
 
 export const fonts = {
@@ -25,7 +26,7 @@ export const globalStyles = StyleSheet.create({
     heading: {
         fontFamily: fonts.heading,
         fontSize: 26,
-        color: colors.accent,
+        color: colors.heading,
         marginBottom: 12,
         letterSpacing: 1,
     },
@@ -35,7 +36,7 @@ export const globalStyles = StyleSheet.create({
         color: colors.text,
     },
     button: {
-        backgroundColor: colors.green,
+        backgroundColor: colors.accent,
         padding: 12,
         borderRadius: 10,
         margin: 6,
@@ -48,7 +49,7 @@ export const globalStyles = StyleSheet.create({
     buttonText: {
         fontFamily: fonts.body,
         fontSize: 16,
-        color: colors.text,
+        color: colors.heading,
         fontWeight: 'bold',
         letterSpacing: 1,
     },

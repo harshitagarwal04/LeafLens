@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   header: {
     fontFamily: fonts.heading,
     fontSize: 26,
-    color: colors.accent,
+    color: colors.heading,
     marginVertical: 12,
     backgroundColor: 'transparent',
     textAlign: 'center',
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     borderColor: colors.accent,
     borderRadius: 10,
     margin: 5,
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.card,
   },
   uploadButton: {
     backgroundColor: colors.green,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   uploadText: {
     fontFamily: fonts.body,
     fontSize: 18,
-    color: colors.text,
+    color: colors.heading,
     fontWeight: 'bold',
     letterSpacing: 1,
   },
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 2,
     borderColor: colors.green,
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.card,
   },
   analyzeButton: {
     backgroundColor: colors.accent,
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   analyzeText: {
     fontFamily: fonts.body,
     fontSize: 18,
-    color: colors.secondary,
+    color: colors.card,
     fontWeight: 'bold',
     letterSpacing: 1,
   },
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     color: colors.accent,
     marginVertical: 10,
     textAlign: 'center',
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.card,
     padding: 10,
     width: '100%',
     position: 'absolute',

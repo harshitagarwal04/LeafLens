@@ -4,7 +4,7 @@ import { colors, fonts } from '../styles';
 const GuideScreenStyle = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(24,28,36,0.7)',
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -12,7 +12,7 @@ const GuideScreenStyle = StyleSheet.create({
     width: '96%',
     maxWidth: 420,
     maxHeight: '85%',
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.card,
     borderRadius: 18,
     paddingVertical: 16,
     paddingHorizontal: 10,
@@ -29,7 +29,7 @@ const GuideScreenStyle = StyleSheet.create({
     fontFamily: fonts.heading,
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.accent,
+    color: colors.heading,
     marginBottom: 14,
     textAlign: 'center',
     letterSpacing: 1,
