@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.card,
   },
   analyzeButton: {
-    backgroundColor: colors.accent,
+    backgroundColor: colors.green, // changed from colors.accent
     paddingVertical: 14,
     paddingHorizontal: 28,
     borderRadius: 10,
@@ -97,11 +97,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 4,
     elevation: 4,
+    alignSelf: 'center',
   },
   analyzeText: {
     fontFamily: fonts.body,
     fontSize: 18,
-    color: colors.card,
+    color: colors.heading,
     fontWeight: 'bold',
     letterSpacing: 1,
   },

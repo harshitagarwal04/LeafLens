@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity, ImageBackground, Modal, BackHandler } from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity, ImageBackground, Modal, BackHandler, Alert } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../ScreenStyles/GalleryScreenStyle';
 import { colors } from '../styles';
+import styles from '../ScreenStyles/GalleryScreenStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import { useFocusEffect } from '@react-navigation/native';
@@ -145,6 +146,27 @@ const GalleryScreen = ({ navigation }) => {
     }
   };
 
+  // Handle image deletion
+  const handleDeleteImage = async (imageUri) => {
+    try {
+      // Remove from state
+      setCapturedImages(prev => prev.filter(img => img !== imageUri));
+      setUploadedImages(prev => prev.filter(img => img !== imageUri));
+      setSelectedImage(null);
+
+      // Delete from file system
+      await FileSystem.deleteAsync(imageUri, { idempotent: true });
+
+      Toast.show({
+        type: 'success',
+        text1: 'Image Deleted',
+        text2: 'The image has been successfully deleted.',
+      });
+    } catch (error) {
+      Alert.alert('Error', 'Failed to delete image from storage.');
+    }
+  };
+
   return (
     <ImageBackground
       source={require('../assets/images/background_image.png')}
@@ -217,15 +239,16 @@ const GalleryScreen = ({ navigation }) => {
             onRequestClose={() => setSelectedImage(null)}
           >
             <View style={styles.modalContainer}>
-              {/* Back Button */}
-              <TouchableOpacity style={styles.backButton} onPress={() => setSelectedImage(null)}>
-                <Ionicons name="arrow-back" size={30} color="#fff" />
+              {/* Back button at top-left */}
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => setSelectedImage(null)}
+              >
+                <Ionicons name="arrow-back" size={28} color={colors.heading} />
               </TouchableOpacity>
 
-              {/* Image Preview */}
               <Image source={{ uri: selectedImage }} style={styles.fullImage} resizeMode="contain" />
 
-              {/* Analyze Button */}
               <TouchableOpacity
                 style={styles.analyzeButton}
                 onPress={() => {
