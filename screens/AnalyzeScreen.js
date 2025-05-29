@@ -3,6 +3,8 @@ import { ScrollView, View, Text, Image, ActivityIndicator, TouchableOpacity, Sha
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { uploadImageForPrediction } from '../utils/uploadImage';
 import style from '../ScreenStyles/AnalyzeScreenStyle';
+import { Ionicons } from '@expo/vector-icons';
+import { colors } from '../styles';
 
 const AnalyzeScreen = () => {
   const { imageUri } = useRoute().params;
@@ -33,12 +35,12 @@ const AnalyzeScreen = () => {
   if (loading) {
     return (
       <ImageBackground
-        source={{ uri: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80' }}
+        source={require('../assets/images/background_image.png')}
         style={{ flex: 1 }}
         resizeMode="cover"
       >
         <View style={{ flex: 1, backgroundColor: 'rgba(24,28,36,0.3)', justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size="large" color="#FFB300" />
+          <ActivityIndicator size="large" color={colors.accent} />
         </View>
       </ImageBackground>
     );
@@ -51,94 +53,126 @@ const AnalyzeScreen = () => {
       resizeMode="cover"
     >
       <View style={{ flex: 1, backgroundColor: 'rgba(24,28,36,0.7)' }}>
-        <ScrollView contentContainerStyle={style.container}>
-          <Image source={{ uri: imageUri }} style={style.imagePreview} />
+        <ScrollView contentContainerStyle={style.container} showsVerticalScrollIndicator={false}>
+          <View style={style.card}>
+            <Image source={{ uri: imageUri }} style={style.imagePreview} />
 
-          {result?.error ? (
-            <Text style={style.errorText}>{result.error}</Text>
-          ) : (
-            <>
-              <Text style={style.headerText}>{result.prediction}</Text>
-              <Text style={style.confidenceText}>
-                Confidence:{' '}
-                {result.confidence != null
-                  ? result.confidence + '%'
-                  : 'N/A'}
-              </Text>
-
-              <View style={style.divider} />
-
-              {/* About Dropdown */}
-              <TouchableOpacity
-                style={style.analysisContainer}
-                onPress={() => setAboutOpen((prev) => !prev)}
-              >
-                <Text style={style.resultText}>
-                  About this Disease {aboutOpen ? '▲' : '▼'}
+            {result?.error ? (
+              <Text style={style.errorText}>{result.error}</Text>
+            ) : (
+              <>
+                <Text style={style.headerText}>
+                  <Ionicons name="leaf" size={26} color={colors.green} />{' '}
+                  {result.prediction}
                 </Text>
-                {aboutOpen && (
-                  <Text style={style.text}>
-                    {result?.description || 'No description available.'}
-                  </Text>
-                )}
-              </TouchableOpacity>
-
-              {/* Causes Dropdown */}
-              <TouchableOpacity
-                style={style.analysisContainer}
-                onPress={() => setCausesOpen((prev) => !prev)}
-              >
-                <Text style={style.resultText}>
-                  Causes {causesOpen ? '▲' : '▼'}
+                <Text style={style.confidenceText}>
+                  <Ionicons name="checkmark-circle" size={18} color={colors.green} />{' '}
+                  Confidence: {result.confidence != null ? result.confidence + '%' : 'N/A'}
                 </Text>
-                {causesOpen && (
-                  <Text style={style.text}>
-                    {result?.causes || 'No further details available.'}
-                  </Text>
-                )}
-              </TouchableOpacity>
 
-              {/* Treatment Dropdown */}
-              <TouchableOpacity
-                style={style.analysisContainer}
-                onPress={() => setTreatmentOpen((prev) => !prev)}
-              >
-                <Text style={style.resultText}>
-                  Treatment {treatmentOpen ? '▲' : '▼'}
-                </Text>
-                {treatmentOpen && (
-                  <Text style={style.text}>
-                    {result?.treatment || 'No treatment information available.'}
-                  </Text>
-                )}
-              </TouchableOpacity>
+                <View style={style.divider} />
 
-              <TouchableOpacity
-                style={style.backButton}
-                onPress={() => {
-                  navigation.goBack();
-                }}
-              >
-                <Text style={style.buttonText}>Retry</Text>
-              </TouchableOpacity>
+                {/* About Dropdown */}
+                <TouchableOpacity
+                  style={style.analysisContainer}
+                  onPress={() => setAboutOpen((prev) => !prev)}
+                  activeOpacity={0.8}
+                >
+                  <View style={style.dropdownHeader}>
+                    <Text style={style.dropdownHeaderText}>
+                      <Ionicons name="information-circle" size={18} color={colors.green} /> About this Disease
+                    </Text>
+                    <Ionicons
+                      style={style.dropdownIcon}
+                      name={aboutOpen ? 'chevron-up' : 'chevron-down'}
+                      size={20}
+                      color={colors.green}
+                    />
+                  </View>
+                  {aboutOpen && (
+                    <Text style={style.dropdownContent}>
+                      {result?.description || 'No description available.'}
+                    </Text>
+                  )}
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                style={style.backButton}
-                onPress={async () => {
-                  try {
-                    await Share.share({
-                      message: `Prediction: ${result.prediction}\nConfidence: ${result.confidence?.toFixed(2) ?? 'N/A'}%\nShared from LeafLens 🌿`,
-                      url: imageUri,
-                    });
-                  } catch (error) {
-                    console.error('Error sharing:', error);
-                  }
-                }}
-              >
-                <Text style={style.buttonText}>Share Result</Text>
-              </TouchableOpacity>
-            </>
-          )}
+                {/* Causes Dropdown */}
+                <TouchableOpacity
+                  style={style.analysisContainer}
+                  onPress={() => setCausesOpen((prev) => !prev)}
+                  activeOpacity={0.8}
+                >
+                  <View style={style.dropdownHeader}>
+                    <Text style={style.dropdownHeaderText}>
+                      <Ionicons name="alert-circle" size={18} color={colors.green} /> Causes
+                    </Text>
+                    <Ionicons
+                      style={style.dropdownIcon}
+                      name={causesOpen ? 'chevron-up' : 'chevron-down'}
+                      size={20}
+                      color={colors.green}
+                    />
+                  </View>
+                  {causesOpen && (
+                    <Text style={style.dropdownContent}>
+                      {result?.causes || 'No further details available.'}
+                    </Text>
+                  )}
+                </TouchableOpacity>
+
+                {/* Treatment Dropdown */}
+                <TouchableOpacity
+                  style={style.analysisContainer}
+                  onPress={() => setTreatmentOpen((prev) => !prev)}
+                  activeOpacity={0.8}
+                >
+                  <View style={style.dropdownHeader}>
+                    <Text style={style.dropdownHeaderText}>
+                      <Ionicons name="medkit" size={18} color={colors.green} /> Treatment
+                    </Text>
+                    <Ionicons
+                      style={style.dropdownIcon}
+                      name={treatmentOpen ? 'chevron-up' : 'chevron-down'}
+                      size={20}
+                      color={colors.green}
+                    />
+                  </View>
+                  {treatmentOpen && (
+                    <Text style={style.dropdownContent}>
+                      {result?.treatment || 'No treatment information available.'}
+                    </Text>
+                  )}
+                </TouchableOpacity>
+
+                <View style={style.buttonRow}>
+                  <TouchableOpacity
+                    style={style.actionButton}
+                    onPress={() => navigation.goBack()}
+                  >
+                    <Ionicons name="refresh" size={18} color={colors.heading} />
+                    <Text style={style.buttonText}>Retry</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={style.actionButton}
+                    onPress={async () => {
+                      try {
+                        await Share.share({
+                          message: `Prediction: ${result.prediction}\nConfidence: ${result.confidence?.toFixed(2) ?? 'N/A'}%\nShared from LeafLens 🌿`,
+                          url: imageUri,
+                        });
+                      } catch (error) {
+                        console.error('Error sharing:', error);
+                      }
+                    }}
+                  >
+                    <Ionicons name="share-social" size={18} color={colors.heading} />
+                    <Text style={style.buttonText}>Share</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
+          </View>
         </ScrollView>
       </View>
     </ImageBackground>
