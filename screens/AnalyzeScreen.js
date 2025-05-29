@@ -5,6 +5,7 @@ import { uploadImageForPrediction } from '../utils/uploadImage';
 import style from '../ScreenStyles/AnalyzeScreenStyle';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../styles';
+import AnimatedDropdown from '../utils/AnimatedDropdown';
 
 const AnalyzeScreen = () => {
   const { imageUri } = useRoute().params;
@@ -89,11 +90,11 @@ const AnalyzeScreen = () => {
                       color={colors.green}
                     />
                   </View>
-                  {aboutOpen && (
+                  <AnimatedDropdown visible={aboutOpen}>
                     <Text style={style.dropdownContent}>
                       {result?.description || 'No description available.'}
                     </Text>
-                  )}
+                  </AnimatedDropdown>
                 </TouchableOpacity>
 
                 {/* Causes Dropdown */}
@@ -113,11 +114,11 @@ const AnalyzeScreen = () => {
                       color={colors.green}
                     />
                   </View>
-                  {causesOpen && (
+                  <AnimatedDropdown visible={causesOpen}>
                     <Text style={style.dropdownContent}>
                       {result?.causes || 'No further details available.'}
                     </Text>
-                  )}
+                  </AnimatedDropdown>
                 </TouchableOpacity>
 
                 {/* Treatment Dropdown */}
@@ -137,11 +138,11 @@ const AnalyzeScreen = () => {
                       color={colors.green}
                     />
                   </View>
-                  {treatmentOpen && (
+                  <AnimatedDropdown visible={treatmentOpen}>
                     <Text style={style.dropdownContent}>
                       {result?.treatment || 'No treatment information available.'}
                     </Text>
-                  )}
+                  </AnimatedDropdown>
                 </TouchableOpacity>
 
                 <View style={style.buttonRow}>
